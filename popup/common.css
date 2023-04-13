@@ -1,0 +1,9 @@
+html, body {
+  width: auto;
+  padding: 2px;
+  height: auto;
+}
+
+.hidden {
+  display: none;
+}
