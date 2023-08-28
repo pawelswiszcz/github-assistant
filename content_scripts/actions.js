@@ -14,16 +14,25 @@
         /**
          * Remove every beast from the page.
          */
-        function reset(element) {
+        function resetElement(element) {
             if (element) {
                 element.value = '';
                 triggerChangeEvent(null);
             }
         }
 
+        function resetElements(elements) {
+            if (elements) {
+                for (const elementsKey in elements) {
+                    elements[elementsKey].value = '';
+                }
+                triggerChangeEvent(null);
+            }
+        }
+
 
         function commit(element) {
-            document.querySelector("#partial-new-comment-form-actions button").click();
+            document.querySelector('#partial-new-comment-form-actions button.btn-primary[type="submit"]').click();
         }
 
         function scrollIntoElement(element) {
@@ -41,17 +50,18 @@
          * Listen for messages from the background script.
          */
         browser.runtime.onMessage.addListener((message) => {
+            let mrAuthor = document.querySelector(".author").innerHTML;
 
+            const metaTag = document.querySelector('meta[name="user-login"]');
+            const loggedUser = metaTag.getAttribute('content');
 
-            let mrAuthor = document.querySelector(".avatar-user").getAttribute('alt');
-
-            let loggedUser = document.querySelector(".Header-link img.avatar-small").getAttribute('alt');
             let prDescription = document.querySelector("#pull_request_body");
-            let note = document.querySelector("#new_comment_field");
+            let note = document.querySelectorAll("form.js-inline-comment-form textarea");
+
 
             if (message.command === "reset") {
-                reset(prDescription);
-                reset(note);
+                resetElement(prDescription);
+                resetElements(note);
             } else if (message.command === "notes") {
                 scrollIntoElement(note);
             } else if (message.command === "goToDescription") {
@@ -75,7 +85,10 @@
                     command = command.replace('#mrAuthor#', mrAuthor);
                     command = command.replace('#loggedUser#', loggedUser);
 
-                    note.value = note.value + command + '\n';
+                    for (const noteKey in note) {
+                        note[noteKey].value = note[noteKey].value + command + '\n';
+                    }
+
 
                     triggerChangeEvent(note);
                 }

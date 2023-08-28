@@ -57,7 +57,9 @@ function listenForClicks() {
                                                  ? e.target.parentNode : e.target;
 
                                     function sendAction(tabs) {
-
+                                        console.log(button.getAttribute('data-command'));
+                                        console.log(button.getAttribute('data-target'));
+                                        console.log(tabs[0].id);
                                         browser.tabs.sendMessage(tabs[0].id, {
                                             command: button.getAttribute('data-command'),
                                             target: button.getAttribute('data-target'),
