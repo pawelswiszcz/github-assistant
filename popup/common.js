@@ -53,13 +53,10 @@ function listenForClicks() {
                                 button.innerHTML = DOMPurify.sanitize(title);
 
                                 button.addEventListener('click', (e) => {
-                                    let button = e.target.nodeName === 'IMG' || e.target.nodeName === 'SPAN'
+                                    let button = e.target.nodeName === 'IMG' || e.target.nodeName === 'SPAN' || e.target.nodeName === 'I'
                                                  ? e.target.parentNode : e.target;
 
                                     function sendAction(tabs) {
-                                        console.log(button.getAttribute('data-command'));
-                                        console.log(button.getAttribute('data-target'));
-                                        console.log(tabs[0].id);
                                         browser.tabs.sendMessage(tabs[0].id, {
                                             command: button.getAttribute('data-command'),
                                             target: button.getAttribute('data-target'),
