@@ -18,6 +18,7 @@
 			if (element) {
 				element.value = '';
 				triggerChangeEvent(null);
+				console.log
 			}
 		}
 
