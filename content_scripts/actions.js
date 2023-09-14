@@ -64,6 +64,9 @@
 			}
 
 			let prDescription = document.querySelector("#pull_request_body");
+			if (null === prDescription) {
+				prDescription = document.querySelector('textarea[name="pull_request[body]"]');
+			}
 			let note = document.querySelectorAll("form.js-inline-comment-form textarea");
 
 			if (message.command === "reset") {
